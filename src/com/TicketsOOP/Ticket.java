@@ -4,6 +4,8 @@
 
     import java.util.Date;
     public class Ticket {
+
+        // declaring the variable, that will be used for this program
         private int priority;
         private String reporter; //Stores person or department who reported issue
         private String description;
@@ -12,6 +14,7 @@
         private Date resolutionDate;
 
 
+        // get and set method for the resolution and resolutionDate
         public String getResolution() {
             return resolution;
         }
@@ -38,6 +41,8 @@
         //The ID for each ticket - instance variable. Each Ticket will have it's own ticketID variable
         protected int ticketID;
 
+
+        // Constructor for the Ticket (bluePrint of how Ticket is made)
         public Ticket(String desc, int p, String rep, Date date) {
             this.description = desc;
             this.priority = p;
@@ -47,6 +52,7 @@
             staticTicketIDCounter++;
         }
 
+        // Constructor for the Ticket with changing the ticket ID number
         public Ticket(String desc, int p, String rep, Date date, int id) {
             this.description = desc;
             this.priority = p;
@@ -56,6 +62,8 @@
             staticTicketIDCounter = id + 1;
         }
 
+
+        // get and set method for priority
         protected int getPriority() {
             return priority;
         }
@@ -64,8 +72,15 @@
             return description;
         }
 
+
+
+        // toString method to make the resolutionString and resolvedDateString variable to set a string data
+        // for the display on the console
         public String toString() {
 
+
+            // if the resolutionDate or resolution is equal to null... display "Unresolved" on the console, otherwise,
+            // display the string data to the console
             String resolvedDateString = ( resolutionDate == null) ? "Unresolved" : this.resolutionDate.toString();
             String resolutionString = ( this.resolution == null) ? "Unresolved" : this.resolution;
 
@@ -77,6 +92,7 @@
         }
 
 
+        // method to get tickedId data and return the data where the method was called
         public int getTicketID() {
 
 

@@ -1,3 +1,16 @@
+// LAB 7, Advanced Problem 1, 2, 3, 4, 5, 6, 7, 8
+// I got help from Learning Center at MCTC for coding
+
+
+// Problem 1 - Answer is...
+// Static variable are there in code, because, you want to use a static variable to change variable of instance since,
+// variable of each instance is little different and make up a new variable for instance, using part of a static variable.
+
+
+// Problem 5 - Answer is...
+//  I rather add two new variables to the ticket class, because,
+//  it is less code to write and I don't need to create a new object for resolving ticket.
+
 
 
 package com.TicketsOOP;
@@ -13,25 +26,42 @@ public class TicketManager {
 
     public static void main(String[] args) {
         LinkedList<Ticket> ticketQueue = new LinkedList<Ticket>();
+
+        // Creating a variable for a "Open_Ticket.txt"
         String fileNameOpen = "Open_Ticket.txt";
 
+
+        // Creating a BufferedReader bReader to read the file "Open_Ticket.txt"
         try (BufferedReader bReader = new BufferedReader(new FileReader(fileNameOpen));){
 
+            // reading a line from a "Open_Ticket.txt" and Creating a variable name "line"
             String line = bReader.readLine();
+
+
+            // Using while loop, while line is not equal to null... and splitting the line variable data with
+            // space between them.
             while (line !=null){
                 String[] lineData = line.split(" ");
 
+                // Creating SimpleDateFormat formatter variable to format the date in certain ways
                 SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");
+
+                // Creating a dateInString variable from the data information from the lineData Array.
                 String dateInString = lineData[11]+" "+ lineData[12] + " " + lineData[13]+ " " + lineData[14] +
                         " " + lineData[15] + " " + lineData[16];
 
 
+                // formatting the dateInString variable  date information by using a formatter
                 Date date = formatter.parse(dateInString);
 
 
+                // Creating a variable for "priority" and "id" from a lineData Array of index position of data stored
                 int priority = Integer.parseInt(lineData[5]);
                 int id = Integer.parseInt(lineData[1]);
-                //only plroblem: what if descriptin or name are more than one word
+
+
+                // Creating a openTicketData instance in a Ticket class with perimeter
+                // and adding the data to LinkedList of ticketQueue
                 Ticket openTicketData = new Ticket(lineData[3], priority, lineData[8], date, id);
                 ticketQueue.add(openTicketData);
 
@@ -40,6 +70,7 @@ public class TicketManager {
 
             }
         }
+        // Catching any file related exception and parse exception
         catch (IOException ioe){
             System.out.println("Error creating or writing file " +ioe);
         }
@@ -51,9 +82,19 @@ public class TicketManager {
 
 
         while(true){
+
+            // Using while loop to display the user choice on console with a issue of Ticket
+            // depends on the user input choice...  it will call a different method to do a certain task
             System.out.println("1. Enter Ticket\n2. Delete by ID\n3. Display All Tickets\n4. Delete by Issue\n5. Search by Name\n6. Quit");
             int task = Integer.parseInt(scan.nextLine());
-            if (task == 1) {
+
+            // Making user to input a choice of number between 1 to 6
+            if (task <= 0 || task > 6){
+                System.out.println("Please, pick a number between 1 to 6 \n");
+                continue;
+            }
+
+            else if (task == 1) {
                 //Call addTickets, which will let us enter any number of new tickets
                 addTickets(ticketQueue);
             } else if (task == 2) {
@@ -64,8 +105,11 @@ public class TicketManager {
                 System.out.println("Quitting program");
                 break;
             } else if (task == 4){
+
+                // calling a delete by issue method
                 deleteByIssue(ticketQueue);
 
+                // calling a searchByName method
             } else if (task == 5){
                 searchByName(ticketQueue);
             }
@@ -73,33 +117,50 @@ public class TicketManager {
 
             else {
                 //this will happen for 3 or any other selection that is a valid int
-                //TODO Program crashes if you enter anything else - please fix
                 //Default will be print all tickets
                 printAllTickets(ticketQueue);
             }
         }
 
         scan.close();
-        Date fileDate = new Date();
-        //todo: fix date
-        String fileName = "Resolved_tickets_as_of_today.txt";
 
+
+
+        Date fileDate = new Date();
+        //Creating a object simple with format style of ("MMM_dd_yyyy")
+        // so that variable fileDateString can be formatted to certain style in later program
+        // for fileName variable (file.txt)
+        SimpleDateFormat simple = new SimpleDateFormat("MMM_dd_yyyy");
+        String fileDateString = simple.format(fileDate);
+
+        String fileName = "Resolved_tickets_as_of_" +fileDateString+".txt";
+
+
+        // Creating a BufferedWriter bWriter to write a data in variable name "fileName"
         try (BufferedWriter bWriter = new BufferedWriter(new FileWriter(fileName));){
+
+            // using for loop on resolvedTicket to get each data
+            // and writing the data to resolved ticket txt.file
             for(Ticket j : resolvedTickets) {
                 bWriter.write(j.toString() + "\n");
 
             }
 
+            // using for loop to write a each open ticket data from the ticketQueue
+            // to the Open ticket txt.file
             BufferedWriter kWriter = new BufferedWriter(new FileWriter(fileNameOpen));
                 for(Ticket k : ticketQueue ){
                     kWriter.write(k.toString()+ "\n");
                 }
 
+            // close both writer and save the data on txt.file
             bWriter.close();
             kWriter.close();
 
 
         }
+
+        // catch any file related exception
         catch (IOException ioe){
             System.out.println("Error creating or writing file " +ioe);
         }
@@ -200,6 +261,8 @@ public class TicketManager {
                         break; //don't need loop any more.
                     }
                 }
+
+                // if ticket is not found, display the message to ask a user to try entering a ticketID again
                 if (found == false) {
                     System.out.println("Ticket ID not found, please enter the ticketID again.\n");
 
