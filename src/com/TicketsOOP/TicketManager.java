@@ -1,5 +1,5 @@
 // LAB 7, Advanced Problem 1, 2, 3, 4, 5, 6, 7, 8
-// I got help from Learning Center at MCTC for coding
+// I got help from Andre from Learning Center at MCTC for coding
 
 
 // Problem 1 - Answer is...
@@ -333,7 +333,7 @@ public class TicketManager {
 
 }
 
-/*TicketManager class – next prototype
+/*TicketManager class Â– next prototype
         - Have added a menu
         - Each menu item calls a method
         - Add tickets works, show all tickets works
